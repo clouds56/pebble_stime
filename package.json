@@ -1,0 +1,24 @@
+{
+    "author": "clouds.flowing@gmail.com",
+    "dependencies": {},
+    "keywords": [],
+    "name": "stime",
+    "pebble": {
+        "displayName": "STime",
+        "enableMultiJS": true,
+        "messageKeys": {
+            "message": 1,
+            "status": 0
+        },
+        "projectType": "native",
+        "resources": {
+            "media": []
+        },
+        "sdkVersion": "3",
+        "uuid": "444f0e8b-f4dd-4f45-bd9a-b4b5725c7c84",
+        "watchapp": {
+            "watchface": false
+        }
+    },
+    "version": "1.0.0"
+}
