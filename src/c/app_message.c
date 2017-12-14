@@ -1,20 +1,14 @@
 #include <pebble.h>
 
+#define APP_NAME "stime"
 static Window *s_window;
-
-// Keys for AppMessage Dictionary
-// These should correspond to the values you defined in appinfo.json/Settings
-enum {
-  STATUS_KEY = 0,
-  MESSAGE_KEY = 1
-};
 
 // Write message to buffer & send
 static void send_message(void) {
   DictionaryIterator *iter;
 
   app_message_outbox_begin(&iter);
-  dict_write_cstring(iter, MESSAGE_KEY, "I'm a Pebble!");
+  dict_write_cstring(iter, MESSAGE_KEY_message, "I'm a Pebble!");
 
   dict_write_end(iter);
   app_message_outbox_send();
@@ -23,13 +17,14 @@ static void send_message(void) {
 // Called when a message is received from PebbleKitJS
 static void in_received_handler(DictionaryIterator *received, void *context) {
   Tuple *tuple;
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Received something");
 
-  tuple = dict_find(received, STATUS_KEY);
+  tuple = dict_find(received, MESSAGE_KEY_status);
   if(tuple) {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "Received Status: %d", (int)tuple->value->uint32);
   }
 
-  tuple = dict_find(received, MESSAGE_KEY);
+  tuple = dict_find(received, MESSAGE_KEY_message);
   if(tuple) {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "Received Message: %s", tuple->value->cstring);
   }
@@ -66,7 +61,11 @@ static void deinit(void) {
 }
 
 int main( void ) {
+  APP_LOG(APP_LOG_LEVEL_DEBUG, APP_NAME " start");
   init();
+  APP_LOG(APP_LOG_LEVEL_DEBUG, APP_NAME " inited");
   app_event_loop();
+  APP_LOG(APP_LOG_LEVEL_DEBUG, APP_NAME " cleanup");
   deinit();
+  APP_LOG(APP_LOG_LEVEL_DEBUG, APP_NAME " quit");
 }
